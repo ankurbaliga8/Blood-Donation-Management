@@ -1,0 +1,119 @@
+{% extends 'inventory/base.html' %}
+ {% block cssloads %}
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ 
+{%endblock%} 
+{% block content %}
+<div class="card mx-auto" style="width : 50vw;">
+  <h3 class = "card-title text-center">
+    Available Units of Blood Group by Blood Group
+  </h3>
+  <div class="card-body">
+		<div class = "chart">
+      
+        <canvas id="myChart"></canvas>
+  
+	</div>
+  </div>
+</div>
+<br>
+
+<div class="card mx-auto" style="width : 50vw;">
+  <h3 class = "card-title text-center">
+    Available Blood Bags
+  </h3>
+  
+  <div class="card-body">
+		<div class = "bloodbagtable">
+      <table class = "table table-responsive">
+        <thead>
+          <tr>
+            <th scope = "col">
+              Bag ID
+            </th>
+            <th scope = "col">
+              Blood Group
+            </th>
+            <th scope = "col">
+              Date of Issue
+            </th>
+            <th scope = "col">
+              Date of Use
+            </th>
+            <th scope = "col">
+              Inventory ID
+            </th>
+            <th scope = "col">
+              IS Available
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for bloodbag in allBloodBags %}
+          <tr>
+            <td>
+              {{bloodbag['bag_id']}}
+            </td>
+            <td>
+              {{bloodbag['blood_group']}}
+            </td>
+            <td>
+              {{bloodbag['date_of_issue']}}
+            </td>
+            <td>
+              {{bloodbag['date_of_use']}}
+            </td>
+            <td>
+              {{bloodbag['inventory_id']}}
+            </td>
+            <td>
+              {{bloodbag['available']}}
+            </td>
+          </tr>
+        </tbody>
+        {% endfor %}
+      </table>
+	</div>
+  </div>
+</div>
+<script>
+ const labels = {{ labels | tojson}};
+ 
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Available Units',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: {{ data | tojson}},
+            }]
+        };
+ 
+        const config = {
+            type: 'bar',
+            data: data,
+            options: { maintainAspectRatio: false }
+        };
+ 
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+      </script>
+
+{% endblock %}
+
+{% block scripts %}
+
+
+<script>
+  
+        
+</script>
+
+
+
+
+
+{% endblock %}
